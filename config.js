@@ -1,7 +1,7 @@
 module.exports = {
   bot: {
     channels: ['#cambridge'],
-    server: 'irc.freenode.net',
-    botName: 'afrolion'
+    server: process.env.TCORE_SERVER || 'irc.freenode.net',
+    botName: process.env.TCORE_BOTNAME || 'tcore-bot'
   }
 }

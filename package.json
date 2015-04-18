@@ -1,6 +1,6 @@
 {
   "name": "twitchcore",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "IRC bot & simple website to display what the bot scraps from IRC channel",
   "main": "app.js",
   "scripts": {
