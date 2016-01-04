@@ -20,8 +20,12 @@ coverage
 # node-waf configuration
 .lock-wscript
 
-* Compiled binary addons
+# Compiled binary addons
 build/Release
+
+# Environment ignores
+typings
+jsconfig.json
 
 # Dependency directory
 node_modules
