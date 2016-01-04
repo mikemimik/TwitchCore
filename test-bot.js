@@ -30,7 +30,9 @@ function logAllEmitEvents(eventEmitter) {
 
 // INFO: pass instance of client to logging function
 logAllEmitEvents(instance);
-
+instance._connect(function() {
+  console.log('connect callback');
+});
 
 instance.on('cat', function() {
   console.log('meow');

@@ -1,6 +1,6 @@
 module.exports = {
   bot: {
-    server: process.env.TCORE_SERVER || 'irc.freenode.net',
+    server: process.env.TCORE_SERVER || 'irc.rizon.net',
     botName: process.env.TCORE_NICK || 'collins',
     userName: process.env.TCORE_USERNAME || 'jcollins',
     realName: process.env.TCORE_REALNAME || 'JarvisCollins',
@@ -10,7 +10,7 @@ module.exports = {
     // showErrors: false,
     // autoRejoin: true,
     // autoConnect: true,
-    channels: ['#cambridge'],
+    channels: ['#twitchcore'],
     // retryCount: 3,
     // retryDelay: 5000,
     // secure: false,
