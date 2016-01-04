@@ -36,7 +36,7 @@ class BotClient extends EventEmitter {
     // INFO: set internal options to options sent in params
     // TODO: make this a function that gets called
     if (typeof arguments[2] === 'object') {
-      var keys = Object.keys(this[options]);
+      var keys = Object.keys(this._options);
       for (let i = 0; i < keys.length; i++) {
         var k = keys[i];
         if (arguments[2][k] !== undefined) {
@@ -73,15 +73,18 @@ class BotClient extends EventEmitter {
     /**
      * Functionality Starts
      */
-    if (this._options.autoConnect) {
-      console.log('>>> BotClient >>> constructor - autoConnect is true');
-      this._connect();
-    } else {
-      console.log('>>> BotClient >>> constructor - autoConnect is false');
-    }
-
+    // if (this._options.autoConnect) {
+    //   console.log('>>> BotClient >>> constructor - autoConnect is true');
+    //   this._connect();
+    // } else {
+    //   console.log('>>> BotClient >>> constructor - autoConnect is false');
+    // }
     this.addListener('raw', function(message) {
       console.log('>>> BotClient >>> constructor - addListener(\'raw\')');
+    });
+
+    this.addListener('error', function(message) {
+      console.log('>>> BotClient >>> error: ', message);
     });
   }; // INFO: end of constructor
 
@@ -92,9 +95,9 @@ class BotClient extends EventEmitter {
       console.log('>>> BotClient >>> connect - callback supplied');
       let connectionOptions = {
         port: this._options.port,
-        host: this._options.host
+        host: this._options.server
       };
-      this._connection = net.createConnection(connectionOptions);
+      this._connection = net.createConnection(connectionOptions, this._connectionHandler.bind(this));
     } else {
 
       // INFO: a callback was NOT passed
@@ -103,8 +106,30 @@ class BotClient extends EventEmitter {
   };
 
   _connectionHandler() {
-
+    console.log('>>> connectionHandler >>>');
+    this._send('CAP', 'LS', '302');
+    if (this._options.debug) { util.log('Sending irc NICK/USER'); }
+    this._send('NICK', this._options.nick);
+    this._updateMaxLineLength();
+    this._send('USER', this._options.userName, 8, '*', this._options.realName);
+    this.addListener('error', function(message) {
+      console.log('>>> connectionHandler >>> error: ' + message);
+    });
+    this.addListener('cap-end', function() {
+      this.emit('connect');
+    });
   };
-}
 
+  _send(command) {
+    let args = Array.prototype.slice.call(arguments);
+
+    // console.log('>>> BotClient >>> send - args: ' + args);
+    if (this._options.debug) { util.log('SEND: ' + args.join(' ')); }
+    this._connection.write(args.join(' '), + '\r\n', function() {
+      console.log('>>> send >>> finished writing');
+    });
+  }
+
+  _updateMaxLineLength(){};
+}
 module.exports = BotClient;
