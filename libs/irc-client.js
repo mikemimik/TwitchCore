@@ -75,7 +75,7 @@ class BotClient extends EventEmitter {
      */
     if (this._options.autoConnect) {
       console.log('>>> BotClient >>> constructor - autoConnect is true');
-      this[funcConnect]();
+      this._connect();
     } else {
       console.log('>>> BotClient >>> constructor - autoConnect is false');
     }
@@ -86,16 +86,15 @@ class BotClient extends EventEmitter {
   }; // INFO: end of constructor
 
   _connect(callback) {
-  // [funcConnect](callback) {
     if (typeof (callback) === 'function') {
 
       // INFO: a callback was passed
       console.log('>>> BotClient >>> connect - callback supplied');
       let connectionOptions = {
-        port: this[propOptions].port,
-        host: this[propOptions].host
+        port: this._options.port,
+        host: this._options.host
       };
-      this[propConnection] = net.createConnection(connectionOptions);
+      this._connection = net.createConnection(connectionOptions);
     } else {
 
       // INFO: a callback was NOT passed
@@ -103,7 +102,7 @@ class BotClient extends EventEmitter {
     }
   };
 
-  [funcConnectionHandler]() {
+  _connectionHandler() {
 
   };
 }
