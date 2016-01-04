@@ -8,16 +8,6 @@ const EventEmitter = require('events').EventEmitter;
 // TODO: use following modules
 // var colors = require('colors');
 
-
-// INFO: private keys for BotClient class
-// INFO: using Symbol to create psuedo private prop/func
-const propOptions = Symbol('bot-options');
-const propSupportedOptions = Symbol('server-supported-options');
-const propHostMask = Symbol('host-mask');
-const propConnection = Symbol('socket-connection');
-const funcConnect = Symbol('connect-function');
-const funcConnectionHandler = Symbol('connection-handler');
-
 class BotClient extends EventEmitter {
   constructor(server, nick, options) {
     super();
